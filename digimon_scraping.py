@@ -3,6 +3,7 @@
 from bs4 import BeautifulSoup
 import requests
 import csv
+import mysql.connector
 
 # web scraping digimon
 url = 'https://wikimon.net/Visual_List_of_Digimon'
@@ -26,22 +27,21 @@ with open('digimon.csv', 'w') as data_digimon:
     writer.writerows(row)
 
 # insert csv file to sql
-import mysql.connector
-
 my_db = mysql.connector.connect(
     host = 'localhost',
     user = 'root',
-    passwd = '______________',        # you need to describe your password
+    passwd = '_________',        # you need to describe your password
     database = 'digimon'
     )
 
-# reset database index (delete then reset auto increment)
-hapus = my_db.cursor().execute('delete from digimon')
-mulai = my_db.cursor().execute('ALTER TABLE digimon AUTO_INCREMENT = 1')
-
 x = my_db.cursor()
 
+# reset database index (delete then reset auto increment)
+hapus = x.execute('delete from digimon')
+mulai = x.execute('ALTER TABLE digimon AUTO_INCREMENT = 1')
+
 csv_data = csv.reader(open('digimon.csv', 'r'))
+
 for row in csv_data:
     x.execute('INSERT INTO digimon (nama,gambar) VALUES(%s, %s)',row)
     my_db.commit()
