@@ -31,7 +31,7 @@ import mysql.connector
 my_db = mysql.connector.connect(
     host = 'localhost',
     user = 'root',
-    passwd = 'Bestfriend181091',        # you need to describe your password
+    passwd = '______________',        # you need to describe your password
     database = 'digimon'
     )
 
