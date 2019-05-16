@@ -31,14 +31,27 @@ import mysql.connector
 my_db = mysql.connector.connect(
     host = 'localhost',
     user = 'root',
-    passwd = '________',        # you need to describe your password
+    passwd = 'Bestfriend181091',        # you need to describe your password
     database = 'digimon'
     )
 
+# reset database index (delete then reset auto increment)
+hapus = my_db.cursor().execute('delete from digimon')
+mulai = my_db.cursor().execute('ALTER TABLE digimon AUTO_INCREMENT = 1')
+
 x = my_db.cursor()
 
+csv_data = csv.reader(open('digimon.csv', 'r'))
+for row in csv_data:
+    x.execute('INSERT INTO digimon (nama,gambar) VALUES(%s, %s)',row)
+    my_db.commit()
+x.close()
+
+# cara lain kalo mau masukin sql langsung tanpa akses csv
+'''
 for i in range(len(row)):
     nama = list_nama[i]
     gambar = list_src[i]
     x.execute('insert into digimon (nama, gambar) values (%s, %s)', (nama, gambar))
     my_db.commit()
+'''
